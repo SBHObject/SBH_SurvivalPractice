@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 702603880}
   - component: {fileID: 702603882}
   - component: {fileID: 702603881}
+  - component: {fileID: 702603883}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -340,15 +341,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b6822142b7e074a9ccc1443cfdcb48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  jumpForce: 20
+  moveSpeed: 5
+  jumpForce: 80
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 0
   camContainer: {fileID: 545253254}
   minLook: -80
   maxLook: 90
-  lookSensitivity: 100
+  lookSensitivity: 0.2
   canLook: 1
 --- !u!114 &702603882
 MonoBehaviour:
@@ -363,6 +364,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  condition: {fileID: 0}
+--- !u!114 &702603883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702603876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b3434f52d4ed947bd7c1279b42c86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiCondition: {fileID: 0}
+  noHungerHealthDecay: 2
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +559,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
