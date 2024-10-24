@@ -24,19 +24,20 @@ public class ItemData : ScriptableObject
     public string description;
     public ItemType type;
     public Sprite icon;
-    public GameObject prefab;
+    public GameObject dropPrefab;
 
     [Header("Stacking")]
     public bool canStack;
     public int maxStackAmount;
 
     [Header("Consumable")]
-    public ItemDataCunsumable[] cunsumables;
+    public ItemDataCunsumable[] consumables;
 
     [Header("Equip")]
     public GameObject equipPrefab;
 }
 
+[System.Serializable]
 public class ItemDataCunsumable
 {
     public ConsumableType type;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+
+    public UnityAction inventory;
 
     private Rigidbody rb;
 
@@ -78,6 +81,15 @@ public class PlayerController : MonoBehaviour
         mouseDelta = context.ReadValue<Vector2>();
     }
 
+    public void OnInventoryOpen(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+            ToggleCursor();
+        }
+    }
+
     //캐릭터 움직이기
     public void Move()
     {
@@ -128,8 +140,9 @@ public class PlayerController : MonoBehaviour
     }
 
     //커서 조작, true일때 커서조작 가능
-    public void ToggleCursor(bool toggle)
+    public void ToggleCursor()
     {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
         Cursor.lockState = toggle? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = toggle;
         canLook = !toggle;

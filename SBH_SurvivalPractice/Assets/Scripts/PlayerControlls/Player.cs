@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public ItemData itemData;
     public UnityAction addItem;
 
+    public Transform dropPosition;
+
     private void Awake()
     {
         CharacterManager.Instacne.Player = this;
