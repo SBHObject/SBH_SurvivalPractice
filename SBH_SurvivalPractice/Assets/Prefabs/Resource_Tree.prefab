@@ -68,8 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToDrop: {fileID: 11400000, guid: e8de09c7b91f7e640bf04c892fcb1691, type: 2}
-  quantityPerHit: 5
-  capacity: 1
+  quantityPerHit: 1
+  capacity: 5
 --- !u!1 &8336423537160728489
 GameObject:
   m_ObjectHideFlags: 0

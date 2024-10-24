@@ -36,9 +36,9 @@ public class UIInventory : MonoBehaviour
 
     private void Start()
     {
-        controller = CharacterManager.Instacne.Player.controller;
-        condition = CharacterManager.Instacne.Player.condition;
-        dropPosition = CharacterManager.Instacne.Player.dropPosition;
+        controller = CharacterManager.Instance.Player.controller;
+        condition = CharacterManager.Instance.Player.condition;
+        dropPosition = CharacterManager.Instance.Player.dropPosition;
 
         inventoryWindow.SetActive(false);
         slots = new ItemSlot[slotPanel.childCount];
@@ -54,7 +54,7 @@ public class UIInventory : MonoBehaviour
         ClearSelectedItemInfo();
 
         controller.inventory += Toggle;
-        CharacterManager.Instacne.Player.addItem += AddItem;
+        CharacterManager.Instance.Player.addItem += AddItem;
     }
 
     private void ClearSelectedItemInfo()
@@ -89,7 +89,7 @@ public class UIInventory : MonoBehaviour
 
     public void AddItem()
     {
-        ItemData data = CharacterManager.Instacne.Player.itemData;
+        ItemData data = CharacterManager.Instance.Player.itemData;
 
         if(data.canStack == true)
         {
@@ -98,7 +98,7 @@ public class UIInventory : MonoBehaviour
             {
                 slot.quantity++;
                 UpdateUI();
-                CharacterManager.Instacne.Player.itemData = null;
+                CharacterManager.Instance.Player.itemData = null;
                 return;
             }
         }
@@ -110,13 +110,13 @@ public class UIInventory : MonoBehaviour
             emptySlot.item = data;
             emptySlot.quantity = 1;
             UpdateUI();
-            CharacterManager.Instacne.Player.itemData = null;
+            CharacterManager.Instance.Player.itemData = null;
             return;
         }
 
         ThrowItem(data);
 
-        CharacterManager.Instacne.Player.itemData = null;
+        CharacterManager.Instance.Player.itemData = null;
     }
 
     private void UpdateUI()
@@ -244,7 +244,7 @@ public class UIInventory : MonoBehaviour
 
         slots[selectedItemIndex].equipped = true;
         curEquipIndex = selectedItemIndex;
-        CharacterManager.Instacne.Player.equip.EquipNew(selectedItem.item);
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem.item);
 
         UpdateUI();
 
@@ -254,7 +254,7 @@ public class UIInventory : MonoBehaviour
     private void UnEquip(int index)
     {
         slots[index].equipped = false;
-        CharacterManager.Instacne.Player.equip.UnEquip();
+        CharacterManager.Instance.Player.equip.UnEquip();
         UpdateUI();
 
         if(selectedItemIndex == index)
