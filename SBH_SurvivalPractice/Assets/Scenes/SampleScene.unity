@@ -1127,6 +1127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkRate: 0.05
+  maxCheckDistance: 5
   layerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -2101,6 +2102,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5617097580903898074, guid: 4beb58a206dbd5d459ef63ba2ce1c14b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7266549716332007641, guid: 4beb58a206dbd5d459ef63ba2ce1c14b, type: 3}
       propertyPath: m_Name
       value: Item_Wood
@@ -2213,6 +2218,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2479640012184346696, guid: a4bbfb1aa419c494c8d41d8dda36d84c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4678683373600217671, guid: a4bbfb1aa419c494c8d41d8dda36d84c, type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5269442248027260376, guid: a4bbfb1aa419c494c8d41d8dda36d84c, type: 3}

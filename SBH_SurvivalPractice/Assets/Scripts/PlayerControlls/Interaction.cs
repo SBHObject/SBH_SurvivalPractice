@@ -9,7 +9,7 @@ public class Interaction : MonoBehaviour
 {
     public float checkRate = 0.05f;
     private float lastCheckTime;
-    private float maxCheckDistance;
+    public float maxCheckDistance;
     public LayerMask layerMask;
 
     public GameObject curInteractGameObject;
@@ -61,6 +61,7 @@ public class Interaction : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && curInteractable != null)
         {
+            Debug.Log("ют╥б");
             curInteractable.OnInteracte();
             curInteractGameObject = null;
             curInteractable = null;
