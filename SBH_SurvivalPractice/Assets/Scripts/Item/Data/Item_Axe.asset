@@ -16,7 +16,8 @@ MonoBehaviour:
   description: "\uC790\uC6D0\uC744 \uCC44\uC9D1\uD560 \uC218 \uC788\uB294 \uB3C4\uB07C\uC785\uB2C8\uB2E4."
   type: 0
   icon: {fileID: 21300000, guid: 7b6a058fa23d65e4eaa0e470481294ce, type: 3}
-  prefab: {fileID: 3066150396973517133, guid: 8eb8ffa4698868149bd40a63c836702d, type: 3}
+  dropPrefab: {fileID: 3066150396973517133, guid: 8eb8ffa4698868149bd40a63c836702d, type: 3}
   canStack: 0
   maxStackAmount: 0
-  equipPrefab: {fileID: 0}
+  consumables: []
+  equipPrefab: {fileID: 8280306626326728547, guid: ce1407175e973694e8fd506c69a54cc4, type: 3}

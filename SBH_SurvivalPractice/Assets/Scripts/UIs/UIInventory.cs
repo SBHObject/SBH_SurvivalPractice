@@ -32,6 +32,8 @@ public class UIInventory : MonoBehaviour
     private ItemSlot selectedItem;
     private int selectedItemIndex;
 
+    private int curEquipIndex;
+
     private void Start()
     {
         controller = CharacterManager.Instacne.Player.controller;
@@ -230,5 +232,39 @@ public class UIInventory : MonoBehaviour
         }
 
         UpdateUI();
+    }
+
+    public void OnEquipButton()
+    {
+        if (slots[curEquipIndex].equipped)
+        {
+            //Unequip
+            UnEquip(curEquipIndex);
+        }
+
+        slots[selectedItemIndex].equipped = true;
+        curEquipIndex = selectedItemIndex;
+        CharacterManager.Instacne.Player.equip.EquipNew(selectedItem.item);
+
+        UpdateUI();
+
+        SelectItem(selectedItemIndex);
+    }
+
+    private void UnEquip(int index)
+    {
+        slots[index].equipped = false;
+        CharacterManager.Instacne.Player.equip.UnEquip();
+        UpdateUI();
+
+        if(selectedItemIndex == index)
+        {
+            SelectItem(selectedItemIndex);
+        }
+    }
+
+    public void OnUnEquipButton()
+    {
+        UnEquip(selectedItemIndex);
     }
 }
