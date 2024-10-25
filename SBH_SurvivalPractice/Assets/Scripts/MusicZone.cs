@@ -23,7 +23,23 @@ public class MusicZone : MonoBehaviour
     {
         if(!Mathf.Approximately(audioSource.volume, targetVolume))
         {
+            audioSource.volume = Mathf.MoveTowards(audioSource.volume, targetVolume, (maxVolume/fadeTime) * Time.deltaTime);
+        }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            targetVolume = maxVolume;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            targetVolume = 0;
         }
     }
 }
