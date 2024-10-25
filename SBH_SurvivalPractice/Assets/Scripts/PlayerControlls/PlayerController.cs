@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+    public bool canMove = true;
 
     public UnityAction inventory;
 
@@ -42,7 +43,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (canMove)
+        {
+            Move();
+        }
     }
 
     private void LateUpdate()
@@ -146,5 +150,16 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = toggle? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = toggle;
         canLook = !toggle;
+    }
+
+    public void LaunchPlayer(float power, Vector3 launchDir)
+    {
+        rb.AddForce(launchDir.normalized * power, ForceMode.VelocityChange);
+    }
+
+    public void StopMove()
+    {
+        canMove = false;
+        rb.velocity = Vector3.zero;
     }
 }
