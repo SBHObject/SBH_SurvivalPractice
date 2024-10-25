@@ -33,6 +33,8 @@ public class Platform : MonoBehaviour
             nodes[i] = nodeParent.GetChild(i);
         }
 
+        transform.position = nodes[0].position;
+
         //1번 노드를 향해 이동
         SetNextNode();
     }
