@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumpForce;
     public LayerMask groundLayerMask;
+    private float groundCheckRange = 0.25f;
 
     [Header("Look")]
     public Transform camContainer;
@@ -73,7 +74,9 @@ public class PlayerController : MonoBehaviour
     //점프 입력
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        if (canMove == false) return;
+
+        if(context.phase == InputActionPhase.Started && IsGrounded())
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
         }
@@ -124,20 +127,10 @@ public class PlayerController : MonoBehaviour
     //캐릭터가 땅에 닿았는지 확인
     private bool IsGrounded()
     {
-        Ray[] rays = new Ray[4]
+        Vector3 spherePos = new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z);
+        if(Physics.CheckSphere(spherePos,groundCheckRange,groundLayerMask,QueryTriggerInteraction.Ignore))
         {
-            new Ray(transform.position + (transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.forward * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down),
-            new Ray(transform.position + (-transform.right * 0.2f) + (transform.up * 0.01f), Vector3.down)
-        };
-
-        for(int i = 0; i < rays.Length; i++)
-        {
-            if (Physics.Raycast(rays[i], 0.1f, groundLayerMask))
-            {
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -161,5 +154,21 @@ public class PlayerController : MonoBehaviour
     {
         canMove = false;
         rb.velocity = Vector3.zero;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 spherePos = new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z);
+
+        if(IsGrounded())
+        {
+            Gizmos.color = Color.green;
+        }
+        else
+        {
+            Gizmos.color= Color.red;
+        }
+
+        Gizmos.DrawSphere(spherePos, groundCheckRange);
     }
 }
