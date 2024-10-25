@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumpForce;
     public LayerMask groundLayerMask;
-    private float groundCheckRange = 0.25f;
+    private float groundCheckRange = 0.22f;
 
     [Header("Look")]
     public Transform camContainer;
@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
     public bool canMove = true;
+
+    private bool isClamb = false;
+    private RaycastHit clambRayHit;
 
     public UnityAction inventory;
 
@@ -46,7 +49,14 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            Move();
+            if (isClamb == false)
+            {
+                Move();
+            }
+            else
+            {
+                ClambMove();
+            }
         }
     }
 
@@ -76,9 +86,22 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove == false) return;
 
-        if(context.phase == InputActionPhase.Started && IsGrounded())
+        if(context.phase == InputActionPhase.Started)
         {
-            rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+            if (IsGrounded())
+            {
+                rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+            }
+            else
+            {
+                Ray ray = new Ray(transform.position, transform.forward);
+                
+                if (Physics.Raycast(ray, out clambRayHit, 1f, groundLayerMask))
+                {
+                    isClamb = true;
+                    rb.useGravity = false;
+                }
+            }
         }
     }
 
@@ -156,6 +179,36 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector3.zero;
     }
 
+    public void ClambMove()
+    {
+        if(IsGrounded())
+        {
+            isClamb = false;
+            rb.useGravity = true;
+        }
+
+        //이전 벽을 인식한 점의 Y축 값을 내 Y값으로 변경
+        Vector3 grapPoint = new Vector3(clambRayHit.point.x, transform.position.y, clambRayHit.point.z);
+        Vector3 dir = Vector3.zero;
+
+        //Y축이 조정된 이전 벽 감지 위치로 레이 발사
+        Ray ray = new Ray(transform.position, grapPoint);
+        //레이 충돌 지점에 벽이 있으면 레이캐스트를 다시 저장
+        if (Physics.Raycast(ray, out clambRayHit, 1f, groundLayerMask))
+        {
+            dir = clambRayHit.transform.up * curMovementInput.y - clambRayHit.transform.right * curMovementInput.x;
+            dir = dir * moveSpeed * 0.5f;
+        }
+        else
+        {
+            //레이 범위를 벗어났는데 벽이 없으면 벽타기 종료
+            isClamb = false;
+            rb.useGravity = true;
+        }
+
+        rb.velocity = dir;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Vector3 spherePos = new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z);
@@ -170,5 +223,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Gizmos.DrawSphere(spherePos, groundCheckRange);
+        Gizmos.DrawLine(transform.position, clambRayHit.point);
     }
 }
