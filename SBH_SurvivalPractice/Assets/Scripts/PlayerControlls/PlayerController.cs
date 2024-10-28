@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public LayerMask groundLayerMask;
     private float groundCheckRange = 0.22f;
+    private float clambStamina = 10f;
+    private float jumpStamina = 20f;
 
     [Header("Look")]
     public Transform camContainer;
@@ -88,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
         if(context.phase == InputActionPhase.Started)
         {
-            if (IsGrounded())
+            if (IsGrounded() && CharacterManager.Instance.Player.condition.UseStamina(jumpStamina))
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
             }
@@ -181,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
     public void ClambMove()
     {
-        if(IsGrounded())
+        if(IsGrounded() || CharacterManager.Instance.Player.condition.UseStamina(clambStamina * Time.deltaTime) == false)
         {
             isClamb = false;
             rb.useGravity = true;
