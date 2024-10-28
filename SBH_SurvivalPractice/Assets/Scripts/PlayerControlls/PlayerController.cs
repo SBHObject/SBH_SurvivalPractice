@@ -196,7 +196,6 @@ public class PlayerController : MonoBehaviour
         //레이 충돌 지점에 벽이 있으면 레이캐스트를 다시 저장
         if (Physics.Raycast(ray, out clambRayHit, 2f, groundLayerMask))
         {
-            transform.position = clambRayHit.point + clambRayHit.normal * 0.5f;
             //레이 충돌지점의 노말벡터 y축 무시, 벡터 90도 회전
             Vector3 side = new Vector3(-clambRayHit.normal.z, 0, clambRayHit.normal.x);
             dir = clambRayHit.transform.up * curMovementInput.y + side * curMovementInput.x;
