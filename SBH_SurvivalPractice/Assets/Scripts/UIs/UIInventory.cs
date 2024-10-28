@@ -368,15 +368,15 @@ public class UIInventory : MonoBehaviour
             {
                 switch (equipSlots[i].item.equipmentStat[j].equipStat)
                 {
-                    case EquipStat.MaxHealth:
+                    case EquipStat.Health:
                         maxHealth += equipSlots[i].item.equipmentStat[j].value;
                         break;
 
-                    case EquipStat.MaxStamina:
+                    case EquipStat.Stamina:
                         maxStamina += equipSlots[i].item.equipmentStat[j].value;
                         break;
 
-                    case EquipStat.MoveSpeed:
+                    case EquipStat.Speed:
                         speed += equipSlots[i].item.equipmentStat[j].value;
                         break;
                 }

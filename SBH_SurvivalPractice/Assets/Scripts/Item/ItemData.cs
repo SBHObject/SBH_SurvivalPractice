@@ -27,9 +27,9 @@ public enum EquipType
 
 public enum EquipStat
 {
-    MaxHealth,
-    MaxStamina,
-    MoveSpeed,
+    Health,
+    Stamina,
+    Speed,
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
