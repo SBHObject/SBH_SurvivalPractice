@@ -8,24 +8,22 @@ public class CamController : MonoBehaviour
     public Camera cam;
     public LayerMask groundLayerMask;
 
-    private float minCamZ;
-    private float maxCamZ;
+    private float minCamZ = -2;
+    private float maxCamZ = 0;
 
     private void Start()
     {
         cam = Camera.main;
-        minCamZ = transform.localPosition.z;
-        maxCamZ = cam.transform.localPosition.z;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         float camZ;
 
         Ray ray = new Ray(transform.position, -transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 5f, groundLayerMask))
+        if (Physics.Raycast(ray, out hit, 2f, groundLayerMask))
         {
             camZ = Vector3.Distance(hit.point, transform.position) * -1;
         }
