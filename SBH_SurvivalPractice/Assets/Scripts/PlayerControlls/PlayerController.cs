@@ -95,11 +95,11 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Ray ray = new Ray(transform.position, transform.forward);
-                
                 if (Physics.Raycast(ray, out clambRayHit, 1f, groundLayerMask))
                 {
-                    isClamb = true;
                     rb.useGravity = false;
+                    
+                    isClamb = true;
                 }
             }
         }
@@ -192,11 +192,14 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = Vector3.zero;
 
         //Y축이 조정된 이전 벽 감지 위치로 레이 발사
-        Ray ray = new Ray(transform.position, grapPoint);
+        Ray ray = new Ray(transform.position, grapPoint - transform.position);
         //레이 충돌 지점에 벽이 있으면 레이캐스트를 다시 저장
-        if (Physics.Raycast(ray, out clambRayHit, 1f, groundLayerMask))
+        if (Physics.Raycast(ray, out clambRayHit, 2f, groundLayerMask))
         {
-            dir = clambRayHit.transform.up * curMovementInput.y - clambRayHit.transform.right * curMovementInput.x;
+            transform.position = clambRayHit.point + clambRayHit.normal * 0.5f;
+            //레이 충돌지점의 노말벡터 y축 무시, 벡터 90도 회전
+            Vector3 side = new Vector3(-clambRayHit.normal.z, 0, clambRayHit.normal.x);
+            dir = clambRayHit.transform.up * curMovementInput.y + side * curMovementInput.x;
             dir = dir * moveSpeed * 0.5f;
         }
         else
