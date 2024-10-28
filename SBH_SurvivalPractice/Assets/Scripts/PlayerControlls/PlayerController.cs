@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float groundCheckRange = 0.22f;
     private float clambStamina = 10f;
     private float jumpStamina = 20f;
+    private float additinalSpeed = 0;
 
     [Header("Look")]
     public Transform camContainer;
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
 
         //방향 * 속도 -> 실제 움직임
-        dir *= moveSpeed;
+        dir *= (moveSpeed + additinalSpeed);
 
         //y축 : 점프, 현재 velocity를 가져와서 높이 유지
         dir.y = rb.velocity.y;
@@ -228,5 +229,10 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.DrawSphere(spherePos, groundCheckRange);
         Gizmos.DrawLine(transform.position, clambRayHit.point);
+    }
+
+    public void SetAdditinalSpeed(float _speed)
+    {
+        additinalSpeed = _speed;
     }
 }

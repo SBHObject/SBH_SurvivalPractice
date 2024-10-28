@@ -61,4 +61,18 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         stamina.Subtract(amount);
         return true;
     }
+
+    public void SetItemStats(float _health, float _stamina)
+    {
+        float healthPercent = health.curValue / health.realMaxValue;
+        float staminaPercent = stamina.curValue / stamina.realMaxValue;
+
+        health.SetAdditionalMaxValue(_health);
+        stamina.SetAdditionalMaxValue(_stamina);
+
+        health.curValue = healthPercent * health.realMaxValue;
+        stamina.curValue = staminaPercent * stamina.realMaxValue;
+
+        Debug.Log($"NowHealth : {health.realMaxValue}");
+    }
 }

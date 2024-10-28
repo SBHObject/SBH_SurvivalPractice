@@ -215,6 +215,12 @@ public class UIInventory : MonoBehaviour
             selectedStatValue.text += selectedItem.item.consumables[i].value.ToString() + "\n";
         }
 
+        for( int i = 0; i < selectedItem.item.equipmentStat.Length; i++)
+        {
+            selectedStatName.text += selectedItem.item.equipmentStat[i].equipStat.ToString() + "\n";
+            selectedStatValue.text += selectedItem.item.equipmentStat[i].value.ToString() + "\n";
+        }
+
         useButton.SetActive(selectedItem.item.type == ItemType.Consumable);
         equipeButton.SetActive(selectedItem.item.type == ItemType.Equipable && !selectedItem.equipped);
         unEquipeButton.SetActive(selectedItem.item.type == ItemType.Equipable && selectedItem.equipped);
@@ -244,7 +250,7 @@ public class UIInventory : MonoBehaviour
 
     public void OnDropButton()
     {
-        if(selectedItem.equipped && selectedItem.item.equipment.equipType == EquipType.Weapon)
+        if(selectedItem.equipped && selectedItem.item.equipType == EquipType.Weapon)
         {
             CharacterManager.Instance.Player.equip.UnEquip();
         }
@@ -270,7 +276,7 @@ public class UIInventory : MonoBehaviour
     public void OnEquipButton()
     {
         int slotIndex = -1;
-        switch(selectedItem.item.equipment.equipType)
+        switch(selectedItem.item.equipType)
         {
             case EquipType.Weapon:
                 slotIndex = 0;
@@ -313,12 +319,13 @@ public class UIInventory : MonoBehaviour
         }
 
         SelectItem(slotIndex, equipSlots[slotIndex].equipped);
+        ExtraStatCheck();
         UpdateUI();
     }
 
     private void UnEquip()
     {
-        if(selectedItem.item.equipment.equipType == EquipType.Weapon)
+        if(selectedItem.item.equipType == EquipType.Weapon)
         {
             CharacterManager.Instance.Player.equip.UnEquip();
         }
@@ -330,6 +337,7 @@ public class UIInventory : MonoBehaviour
         {
             emptySlot.item = selectedItem.item;
             emptySlot.quantity = 1;
+            RemoveSelectedItem();
             selectedItem = emptySlot;
         }
         else
@@ -338,11 +346,44 @@ public class UIInventory : MonoBehaviour
             ClearSelectedItemInfo();
         }
 
+        ExtraStatCheck();
         UpdateUI();
     }
 
     public void OnUnEquipButton()
     {
         UnEquip();
+    }
+
+    private void ExtraStatCheck()
+    {
+        float maxHealth = 0;
+        float maxStamina = 0;
+        float speed = 0;
+
+        for(int i = 0; i < equipSlots.Length; i++)
+        {
+            if (equipSlots[i].item == null) continue;
+            for (int j = 0; j < equipSlots[i].item.equipmentStat.Length; j++)
+            {
+                switch (equipSlots[i].item.equipmentStat[j].equipStat)
+                {
+                    case EquipStat.MaxHealth:
+                        maxHealth += equipSlots[i].item.equipmentStat[j].value;
+                        break;
+
+                    case EquipStat.MaxStamina:
+                        maxStamina += equipSlots[i].item.equipmentStat[j].value;
+                        break;
+
+                    case EquipStat.MoveSpeed:
+                        speed += equipSlots[i].item.equipmentStat[j].value;
+                        break;
+                }
+            }
+        }
+
+        condition.SetItemStats(maxHealth, maxStamina);
+        controller.SetAdditinalSpeed(speed);
     }
 }

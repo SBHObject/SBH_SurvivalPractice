@@ -12,9 +12,13 @@ public class Condition : MonoBehaviour
     public float passiveValue;
     public Image uiBar;
 
+    public float additinalMaxValue;
+    public float realMaxValue;
+
     private void Start()
     {
         curValue = startValue;
+        realMaxValue = maxValue;
     }
 
     private void Update()
@@ -24,7 +28,7 @@ public class Condition : MonoBehaviour
 
     public void Add(float amount)
     {
-        curValue = Mathf.Min(curValue + amount, maxValue);
+        curValue = Mathf.Min(curValue + amount, realMaxValue);
     }
 
     public void Subtract(float amount)
@@ -34,6 +38,12 @@ public class Condition : MonoBehaviour
 
     private float GetPercentage()
     {
-        return curValue / maxValue;
+        return curValue / realMaxValue;
+    }
+
+    public void SetAdditionalMaxValue(float amount)
+    {
+        additinalMaxValue = amount;
+        realMaxValue = maxValue + additinalMaxValue;
     }
 }

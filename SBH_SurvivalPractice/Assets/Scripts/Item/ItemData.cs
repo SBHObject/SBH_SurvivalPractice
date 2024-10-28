@@ -25,6 +25,13 @@ public enum EquipType
     Shoes
 }
 
+public enum EquipStat
+{
+    MaxHealth,
+    MaxStamina,
+    MoveSpeed,
+}
+
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
@@ -44,7 +51,8 @@ public class ItemData : ScriptableObject
 
     [Header("Equip")]
     public GameObject equipPrefab;
-    public ItemDataEquip equipment;
+    public EquipType equipType;
+    public ItemDataEquip[] equipmentStat;
 }
 
 [System.Serializable]
@@ -57,5 +65,6 @@ public class ItemDataCunsumable
 [System.Serializable]
 public class ItemDataEquip
 {
-    public EquipType equipType;
+    public EquipStat equipStat;
+    public float value;
 }
