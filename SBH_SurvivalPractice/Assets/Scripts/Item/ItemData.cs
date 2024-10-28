@@ -16,6 +16,15 @@ public enum ConsumableType
     Buff
 }
 
+public enum EquipType
+{
+    None,
+    Weapon,
+    Head,
+    Armor,
+    Shoes
+}
+
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
@@ -35,6 +44,7 @@ public class ItemData : ScriptableObject
 
     [Header("Equip")]
     public GameObject equipPrefab;
+    public ItemDataEquip equipment;
 }
 
 [System.Serializable]
@@ -42,4 +52,10 @@ public class ItemDataCunsumable
 {
     public ConsumableType type;
     public float value;
+}
+
+[System.Serializable]
+public class ItemDataEquip
+{
+    public EquipType equipType;
 }

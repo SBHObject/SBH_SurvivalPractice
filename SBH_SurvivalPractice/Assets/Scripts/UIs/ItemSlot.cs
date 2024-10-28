@@ -47,11 +47,13 @@ public class ItemSlot : MonoBehaviour
         item = null;
 
         icon.gameObject.SetActive(false);
+        quantity = 0;
         quantityText.text = string.Empty;
     }
 
     public void OnClickButton()
     {
-        inventory.SelectItem(index);
+        if (item == null) return;
+        inventory.SelectItem(index, equipped);
     }
 }
