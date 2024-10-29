@@ -57,7 +57,7 @@ public class Platform : MonoBehaviour
         }
         else
         {
-            currSpeed = Mathf.Lerp(currSpeed, 0, accel);
+            currSpeed = Mathf.Lerp(currSpeed, 0.1f, accel);
         }
 
         transform.position += dir.normalized * currSpeed;
@@ -70,25 +70,20 @@ public class Platform : MonoBehaviour
 
     private void SetNextNode()
     {
+        if (targetIndex == 0 || targetIndex == nodes.Length - 1)
+        {
+            isReturn = targetIndex == 0 ? false : true;
+            isDestination = true;
+            StartCoroutine(WaitTransfer());
+        }
+
         if (isReturn)
         {
             targetIndex --;
-            if (targetIndex == 0)
-            {
-                isReturn = false;
-                isDestination = true;
-                StartCoroutine(WaitTransfer());
-            }
         }
         else
         {
-            targetIndex ++;
-            if (targetIndex == nodes.Length - 1)
-            {
-                isReturn = true;
-                isDestination = true;
-                StartCoroutine(WaitTransfer());
-            }
+            targetIndex++;
         }
 
         targetNode = nodes[targetIndex];
