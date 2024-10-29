@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpPlatform : MonoBehaviour, IInteractable
 {
     public Transform launchPosition;
+
     private float launchTimer = 1f;
     [SerializeField]
     private float launchPower = 1000f;
@@ -29,8 +30,9 @@ public class JumpPlatform : MonoBehaviour, IInteractable
 
     public void OnInteracte()
     {
-        CharacterManager.Instance.Player.controller.StopMove();
+        CharacterManager.Instance.Player.controller.StopMove(false);
         CharacterManager.Instance.Player.transform.position = launchPosition.position;
+        CharacterManager.Instance.Player.transform.rotation = launchPos.rotation;
 
         StartCoroutine(Launch());
     }
@@ -43,10 +45,12 @@ public class JumpPlatform : MonoBehaviour, IInteractable
         GameObject effect = Instantiate(launchEffect, launchPos.position, Quaternion.identity);
         Destroy(effect, 2f);
 
-        CharacterManager.Instance.Player.controller.canMove = true;
-        CharacterManager.Instance.Player.controller.LaunchPlayer(launchPower, launchPosition.up);
+        CharacterManager.Instance.Player.controller.LaunchPlayer(launchPos.up * launchPower);
 
         yield return new WaitForSeconds(launchTimer);
+
+        CharacterManager.Instance.Player.transform.rotation = Quaternion.Euler(Vector3.zero);
+        CharacterManager.Instance.Player.controller.StopMove(true);
         thisCollider.enabled = true;
     }
 }

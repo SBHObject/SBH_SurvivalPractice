@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+    [HideInInspector]
     public bool canMove = true;
 
     private bool isClamb = false;
@@ -133,11 +134,18 @@ public class PlayerController : MonoBehaviour
         //방향 * 속도 -> 실제 움직임
         dir *= (moveSpeed + additinalSpeed);
 
-        //y축 : 점프, 현재 velocity를 가져와서 높이 유지
-        dir.y = rb.velocity.y;
-
         //velocity 로 움직임 구현
-        rb.velocity = dir;
+        if (IsGrounded())
+        {
+            //y축 : 점프, 현재 velocity를 가져와서 높이 유지
+            dir.y = rb.velocity.y;
+
+            rb.velocity = dir;
+        }
+        else
+        {
+            transform.position += dir * 0.01f;
+        }
     }
 
     //카메라 위,아래로 돌리기
@@ -172,15 +180,16 @@ public class PlayerController : MonoBehaviour
         canLook = !toggle;
     }
 
-    public void LaunchPlayer(float power, Vector3 launchDir)
+    public void LaunchPlayer(Vector3 force)
     {
-        rb.AddForce(launchDir.normalized * power, ForceMode.VelocityChange);
+        rb.AddForce(force, ForceMode.VelocityChange);
     }
 
-    public void StopMove()
+    public void StopMove(bool isCanMove)
     {
-        canMove = false;
-        rb.velocity = Vector3.zero;
+        canMove = isCanMove;
+        rb.velocity = isCanMove ? rb.velocity : Vector3.zero;
+        canLook = isCanMove;
     }
 
     public void ClambMove()
