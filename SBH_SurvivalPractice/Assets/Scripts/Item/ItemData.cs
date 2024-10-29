@@ -30,6 +30,7 @@ public enum EquipStat
     Health,
     Stamina,
     Speed,
+    Jump
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]

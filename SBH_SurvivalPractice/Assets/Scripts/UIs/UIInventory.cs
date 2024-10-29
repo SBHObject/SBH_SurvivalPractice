@@ -242,10 +242,25 @@ public class UIInventory : MonoBehaviour
                     case ConsumableType.Hunger:
                         condition.Eat(selectedItem.item.consumables[i].value);
                         break;
+
+                    default:
+                        BuffCheck(selectedItem.item.consumables[i]);
+                        break;
                 }
             }
             RemoveSelectedItem();
         }
+    }
+
+    private void BuffCheck(ItemDataCunsumable data)
+    {
+        switch(data.type)
+        {
+            case ConsumableType.Buff:
+                break;
+        }
+
+
     }
 
     public void OnDropButton()
@@ -360,6 +375,7 @@ public class UIInventory : MonoBehaviour
         float maxHealth = 0;
         float maxStamina = 0;
         float speed = 0;
+        float jump = 0;
 
         for(int i = 0; i < equipSlots.Length; i++)
         {
@@ -379,11 +395,14 @@ public class UIInventory : MonoBehaviour
                     case EquipStat.Speed:
                         speed += equipSlots[i].item.equipmentStat[j].value;
                         break;
+                    case EquipStat.Jump:
+                        jump += equipSlots[i].item.equipmentStat[j].value;
+                        break;
                 }
             }
         }
 
         condition.SetItemStats(maxHealth, maxStamina);
-        controller.SetAdditinalSpeed(speed);
+        controller.SetAdditinalSpeed(speed, jump);
     }
 }

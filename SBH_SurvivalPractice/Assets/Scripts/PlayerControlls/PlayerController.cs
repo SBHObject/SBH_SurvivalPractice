@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private float clambStamina = 10f;
     private float jumpStamina = 20f;
     private float additinalSpeed = 0;
+    private float additinalJumpPower = 0;
 
     [Header("Look")]
     public Transform camContainer;
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour
         {
             if (IsGrounded() && CharacterManager.Instance.Player.condition.UseStamina(jumpStamina))
             {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode.Impulse);
+                rb.AddForce(Vector2.up * (jumpForce + additinalJumpPower), ForceMode.Impulse);
             }
             else
             {
@@ -231,8 +232,9 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position, clambRayHit.point);
     }
 
-    public void SetAdditinalSpeed(float _speed)
+    public void SetAdditinalSpeed(float _speed, float _jump)
     {
         additinalSpeed = _speed;
+        additinalJumpPower = _jump;
     }
 }
