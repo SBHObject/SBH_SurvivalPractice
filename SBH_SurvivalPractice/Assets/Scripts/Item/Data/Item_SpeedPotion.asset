@@ -22,6 +22,8 @@ MonoBehaviour:
   consumables:
   - type: 2
     value: 0
+  buffs:
+  - {fileID: 11400000, guid: 876232407683a00439f460b90f79dd58, type: 2}
   equipPrefab: {fileID: 0}
   equipType: 0
   equipmentStat: []
