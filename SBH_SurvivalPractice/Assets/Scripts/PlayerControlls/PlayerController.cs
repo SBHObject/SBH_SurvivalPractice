@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private float jumpStamina = 20f;
     private float additinalSpeed = 0;
     private float additinalJumpPower = 0;
+    private int maxJumpCount = 1;
+    private int nowJumpCount = 0;
 
     [Header("Look")]
     public Transform camContainer;
@@ -38,10 +40,12 @@ public class PlayerController : MonoBehaviour
     public UnityAction inventory;
 
     private Rigidbody rb;
+    private CharacterBuffs buffs;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        buffs = GetComponent<CharacterBuffs>();
     }
 
     private void Start()
@@ -93,9 +97,10 @@ public class PlayerController : MonoBehaviour
 
         if(context.phase == InputActionPhase.Started)
         {
-            if (IsGrounded() && CharacterManager.Instance.Player.condition.UseStamina(jumpStamina))
+            if (nowJumpCount < maxJumpCount + buffs.BuffedJumpCount && CharacterManager.Instance.Player.condition.UseStamina(jumpStamina))
             {
-                rb.AddForce(Vector2.up * (jumpForce + additinalJumpPower), ForceMode.Impulse);
+                nowJumpCount++;
+                rb.AddForce(Vector2.up * (jumpForce + additinalJumpPower + buffs.BuffedJumpHight), ForceMode.Impulse);
             }
             else
             {
@@ -132,7 +137,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
 
         //방향 * 속도 -> 실제 움직임
-        dir *= (moveSpeed + additinalSpeed);
+        dir *= (moveSpeed + additinalSpeed + buffs.BuffedSpeed);
 
         //velocity 로 움직임 구현
         if (IsGrounded())
@@ -165,6 +170,8 @@ public class PlayerController : MonoBehaviour
         Vector3 spherePos = new Vector3(transform.position.x, transform.position.y + 0.01f, transform.position.z);
         if(Physics.CheckSphere(spherePos,groundCheckRange,groundLayerMask,QueryTriggerInteraction.Ignore))
         {
+            nowJumpCount = 0;
+            
             return true;
         }
 

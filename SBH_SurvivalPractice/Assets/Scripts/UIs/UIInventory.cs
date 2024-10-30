@@ -244,7 +244,7 @@ public class UIInventory : MonoBehaviour
                         break;
 
                     default:
-                        BuffCheck(selectedItem.item.consumables[i]);
+                        BuffCheck(selectedItem.item.buffs);
                         break;
                 }
             }
@@ -252,15 +252,12 @@ public class UIInventory : MonoBehaviour
         }
     }
 
-    private void BuffCheck(ItemDataCunsumable data)
+    private void BuffCheck(BuffData[] buffs)
     {
-        switch(data.type)
+        for (int i = 0; i < buffs.Length; i++)
         {
-            case ConsumableType.Buff:
-                break;
+            CharacterManager.Instance.Player.buffs.AddBuff(buffs[i]);
         }
-
-
     }
 
     public void OnDropButton()

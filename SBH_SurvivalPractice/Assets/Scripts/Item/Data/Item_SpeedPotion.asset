@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: Item_SpeedPotion
   m_EditorClassIdentifier: 
   displayName: "\uC18D\uB3C4\uC99D\uAC00 \uD3EC\uC158"
-  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 \uBE68\uB77C\uC9D1\uB2C8\uB2E4."
+  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 \uC99D\uAC00\uD558\uACE0, \uC810\uD504\uB97C
+    \uD55C\uBC88 \uB354 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   type: 1
   icon: {fileID: 21300000, guid: b7d19ec039fa7b141bd165aa95496c75, type: 3}
-  dropPrefab: {fileID: 0}
+  dropPrefab: {fileID: 6187608522581533491, guid: 3bf52c324b26099438cb5619092077b2, type: 3}
   canStack: 1
   maxStackAmount: 10
   consumables:
   - type: 2
     value: 0
+  buffs:
+  - {fileID: 11400000, guid: 876232407683a00439f460b90f79dd58, type: 2}
+  - {fileID: 11400000, guid: ff3408dca1c16024bae9daf8863fe335, type: 2}
   equipPrefab: {fileID: 0}
   equipType: 0
   equipmentStat: []
