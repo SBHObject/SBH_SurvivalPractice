@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterBuffs : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class CharacterBuffs : MonoBehaviour
     public float BuffedSpeed { get; private set; } = 0;
     public float BuffedJumpHight { get; private set; } = 0;
     public int BuffedJumpCount { get; private set; } = 0;
+
+    public UnityAction<BuffData> onAddBuff;
 
     //버프를 받을때 호출
     public void AddBuff(BuffData addedBuff)
@@ -20,6 +23,7 @@ public class CharacterBuffs : MonoBehaviour
         }
 
         nowBuffs.Add(addedBuff.buffId, StartCoroutine(MaintainBuff(addedBuff)));
+        onAddBuff?.Invoke(addedBuff);
     }
 
     private IEnumerator MaintainBuff(BuffData buff)
